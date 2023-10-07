@@ -3,14 +3,8 @@
   <div class="posts">
     <h1>Posts</h1>
     <ul>
-      <li>
-        <RouterLink to="/posts/id1">Post 1</RouterLink>
-      </li>
-      <li>
-        <RouterLink to="/posts/id2">Post 2</RouterLink>
-      </li>
-      <li>
-        <RouterLink to="/posts/id3">Post 3</RouterLink>
+      <li v-for="post in posts" :key="post.id">
+        <RouterLink :to="`/posts/${post.id}`">{{ post.title }}</RouterLink>
       </li>
     </ul>
     <textarea v-autofocus />
@@ -19,6 +13,25 @@
 
 <script setup>
 import { vAutofocus } from '@/directives/vAutofocus'
+import { ref } from 'vue'
+
+/*
+  Posts
+*/
+const posts = ref([
+  {
+    id: 'id1',
+    title: 'post 1'
+  },
+  {
+    id: 'id2',
+    title: 'post 2'
+  },
+  {
+    id: 'id3',
+    title: 'post 3'
+  }
+])
 </script>
 
 <style scoped>

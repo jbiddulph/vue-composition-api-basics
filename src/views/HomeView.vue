@@ -1,7 +1,7 @@
 
 <template>
   <div class="home">
-    <h2>{{ appTitle }}</h2>
+    <h2 ref="appTitleRef">{{ appTitle }}</h2>
     <h3>{{ counterData.title }}</h3>
     <div>
       <button class="btn" @click="decreaseCounter(5)">--</button>
@@ -24,14 +24,15 @@
 /*
   imports
 */
-import { reactive, computed, watch, onMounted } from 'vue'
+import { ref, reactive, computed, watch, onMounted, nextTick } from 'vue'
 import { vAutofocus } from '@/directives/vAutofocus'
 /*
   app title
 */
-const appTitle = 'My ok counter app'
+const appTitle = 'My ok counter appsss'
+const appTitleRef = ref(null)
 onMounted(() => {
-
+  console.log(`The app title is: ${appTitleRef.value.offsetWidth} px wide`)
 })
 
 /*
@@ -57,8 +58,10 @@ const increaseCounter = (amount) => {
   counterData.count += amount
 }
 
-const decreaseCounter = (amount) => {
+const decreaseCounter = async (amount) => {
   counterData.count -= amount
+  await nextTick()
+  console.log('do something when counter has updated in teh dom') 
 }
 
 </script>
