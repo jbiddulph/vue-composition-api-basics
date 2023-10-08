@@ -1,21 +1,24 @@
-
 <template>
   <div class="home">
     <h2 ref="appTitleRef">{{ appTitle }}</h2>
-    <h3>{{ counterData.title }}</h3>
+    <h3>{{ counter.title }}</h3>
     <div>
-      <button class="btn" @click="decreaseCounter(5)">--</button>
-      <button class="btn" @click="decreaseCounter(1)">-</button>
-        <span class="counter">{{ counterData.count }}</span>
-      <button class="btn" @click="increaseCounter(1)">+</button>
-      <button class="btn" @click="increaseCounter(5)">++</button>
+      <button @click="counter.decreaseCounter(2)" class="btn">--</button>
+      <button @click="counter.decreaseCounter(1)" class="btn">-</button>
+        <span class="counter">{{ counter.count }}</span>
+      <button @click="counter.increaseCounter(1)" class="btn">+</button>
+      <button @click="counter.increaseCounter(2)" class="btn">++</button>
     </div>
 
-    <p>This counter is {{ oddOrEven }}</p>
+    <p>This counter is {{ counter.oddOrEven }}</p>
 
     <div class="edit">
       <h4>Edit counter title:</h4>
-      <input v-model="counterData.title" type="text" v-autofocus>
+      <input
+        v-model="counter.title"
+        v-autofocus
+        type="text"
+      >
     </div>
   </div>
 </template>
@@ -24,8 +27,10 @@
 /*
   imports
 */
-import { ref, reactive, computed, watch, onMounted, nextTick } from 'vue'
+import { ref, onMounted } from 'vue'
 import { vAutofocus } from '@/directives/vAutofocus'
+import { useCounterStore } from '@/stores/counter'
+// import { useCounter } from '@/use/useCounter';
 /*
   app title
 */
@@ -35,35 +40,8 @@ onMounted(() => {
   console.log(`The app title is: ${appTitleRef.value.offsetWidth} px wide`)
 })
 
-/*
-  counter
-*/
-const counterData = reactive({
-  count: 0,
-  title: 'My Counter'
-})
-
-watch(() => counterData.count, (newCount) => {
-  if(newCount === 20) {
-    alert('you made it to 20!')    
-  }
-})
-
-const oddOrEven = computed(() => {
-  if (counterData.count %2 === 0) return 'even'
-  return 'odd'
-})
-
-const increaseCounter = (amount) => {
-  counterData.count += amount
-}
-
-const decreaseCounter = async (amount) => {
-  counterData.count -= amount
-  await nextTick()
-  console.log('do something when counter has updated in teh dom') 
-}
-
+/* counter */
+const counter = useCounterStore()
 </script>
 
 <style>

@@ -1,6 +1,6 @@
 <template>
   <div class="user-data">
-    {{ userData.name }} @{{ userData.username }}
+    {{ userData.name }} @{{ userData.username }} | Online: {{  online }}
   </div>
   <nav>
       <RouterLink to="/">Home</RouterLink>
@@ -12,7 +12,9 @@
 
 <script setup>
 /* Imports */
-import { reactive, provide } from 'vue';
+import { reactive, provide } from 'vue'
+import { useOnline } from '@vueuse/core'
+
 /* User data */
 const userData = reactive({
   name: "John",
@@ -20,6 +22,9 @@ const userData = reactive({
 })
 
 provide('userData', userData)
+
+/* Online */
+const online = useOnline()
 </script>
 
 <style scoped>
